@@ -43,7 +43,9 @@
 不是所有模型都要进行后训练，后训练更适用于需要严格遵守几十条甚至更多指令或提升特定能力时
 因为后训练能可靠的改变模型行为并提升目标能力，但如果实施不当可能导致未训练能力退化
 
-
+课程资料：
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter1/chapter1_1/%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8DIntroduction.md
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter1/chapter1_2/%E5%90%8E%E8%AE%AD%E7%BB%83%E6%8A%80%E6%9C%AF%E4%BB%8B%E7%BB%8DIntroduction%20to%20Post-training.md
 
 
 
