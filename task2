@@ -32,3 +32,10 @@ SFT 数据策划原则
       特点：减少可训练参数的数量，节省显存，在硬件条件有限时更常用。    缺点：更新参数少，学习、遗忘有限。
   根据资源约束和性能要求来选择全参数微调还是参数高效微调。
 
+资料链接：https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter2/chapter2_1/%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BABasics%20of%20SFT.md
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter2/chapter2_2/Lesson_3.ipynb
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter2/chapter2_2/SFT_in_practice.ipynb
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter2/chapter2_2/requirements.txt
+
+
+
