@@ -1,0 +1,64 @@
+在线强化学习（Online Reinforcement Learning, RL）基础理论
+  针对语言模型的两种主要学习方式
+    1.在线学习（Online Learning）：
+      LLM在实时生成新响应的过程中不断学习：1.1生成新的响应（Response）
+                                        1.2获取对应的奖励（Reward）
+                                        1.3使用这些响应与奖励来更新模型权重
+                                        1.4模型持续学习并优化生成的响应
+    2.离线学习（Offline Learning）：
+      LLM只从预先收集的（prompt, response, reward）三元组中学习，不会在训练过程中生成新的响应。
+  所以一般提到在线强化学习时，通常指“在在线学习场景中应用的强化学习方法”。
+在线强化学习的工作机制
+  在线强化学习通常让模型自主探索更好的响应。
+  流程（典型）：
+    1.准备一批 Prompt（输入提示）；
+    2.将这些 Prompt 输入语言模型；
+    3.模型生成对应的 Response；
+    4.将 (prompt, response) 对送入 奖励函数（Reward Function）；
+    5.奖励函数为每对 (prompt, response) 打分；
+    6.获得 (prompt, response, reward) 三元组；
+    7.使用这些数据来更新语言模型。
+奖励函数（Reward Function）的选择（两种常见）：
+  1.训练好的奖励模型（Reward Model）：收集多个模型响应，由人类选择更优质响应。使用这些偏好数据训练奖励模型。
+    特点：1.1通常基于已有的 Instruct 模型初始化；
+          1.2通过大规模人类或机器生成偏好数据训练；
+          1.3可应用于开放式任务，如聊天能力、安全性提升等；
+          1.4在“正确性导向”的任务（如代码、数学、函数调用）中可能不够精确。
+  2.可验证奖励（Verifiable Reward）（“正确性导向”场景中，更推荐使用此方法）：数学任务：验证模型输出是否与标准答案匹配；
+编程任务：通过 单元测试（Unit Tests） 检验代码执行结果是否正确。
+    特点：2.1需提前准备真值（Ground Truth）或测试集；
+          2.2准备成本较高，但奖励信号更精确可靠；
+          2.3更适合训练推理类模型（Reasoning Models）（如代码、数学领域）。
+ 两种主流的在线强化学习算法对比
+  1.PPO（Proximal Policy Optimization）
+    第一代ChatGPT 所使用的在线强化学习算法。
+    工作流程：1.输入一组查询（queries）(q)；
+             2.通过策略模型（Policy Model）（即语言模型本身）生成响应；
+             3.响应被送入以下模块：
+                3.1参考模型（Reference Model）：计算KL散度，限制模型不偏离原始分布；
+                3.2奖励模型（Reward Model）：计算奖励；
+                3.3价值模型（Value Model）或评论者模型（Critic Model）：为每个Token分配价值。
+              4.使用广义优势估计（Generalized Advantage Estimation, GAE）来计算每个Token的优势函数（Advantage），反映该Token的贡献。
+    总结：
+      1.每个 Token 拥有独立的优势值；
+      2.反馈粒度更细；
+      3.但需额外训练价值模型 → 占用更多 GPU 内存。
+2.GRPO（Group Relative Policy Optimization）
+  由 DeepSeek 提出，用于优化大型语言模型的推理能力。
+  工作流程：
+    1.对每个 Prompt，模型生成多个响应；
+    2.对每个响应计算：
+      2.1 奖励（Reward）
+      2.2与参考模型的 KL 散度；
+    3.对同一组（Group）响应计算相对奖励（Relative Reward）；
+    4.将相对奖励作为整个响应的优势值；
+    5.使用此优势更新策略模型。
+  主要区别：
+    1.不再需要价值模型（Value Model）；
+    2.所有 Token 在同一响应中共享相同优势值；
+    3.更节省显存，但优势估计较粗糙。
+PPO 与 GRPO 的比较总结（见原文）
+资料链接：
+https://github.com/datawhalechina/Post-training-of-LLMs/blob/main/docs/chapter4/chapter4_1/chapter4_1.md#工作流程-1
+
+
